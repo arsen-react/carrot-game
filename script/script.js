@@ -27,19 +27,11 @@ const MATRIX = [];
 // }
 // document.body.appendChild(table);
 
-console.log();
-
-MATRIX.map((item) => {
-  item.Array(BOARD_SIZE)
+MATRIX.push(
+  Array(BOARD_SIZE)
     .fill()
-    .map(() => Array(BOARD_SIZE).fill());
-  return MATRIX.push(item);
-});
+    .map(() => Array(BOARD_SIZE).fill())
+);
+console.log(MATRIX, "asdasda");
 
-console.log(MATRIX);
-
-
-MATRIX.push(Array(9).fill().map(()=>Array(9).fill()))
-console.log(MATRIX);
-
-console.log(Array(9).fill().map(()=>Array(9).fill()));
+// console.log(Array(9).fill().map(()=>Array(9).fill()));
