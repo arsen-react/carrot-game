@@ -1,6 +1,7 @@
 const BOARD_SIZE = 8;
 const MATRIX = [];
-
+const emptySlots = 0;
+const bunnySlots = 1;
 // ha start sxmeluc 2 functiona ashxatelu demi hamar, heto avelanaluya eli, kzganq yntacqum
 
 // hmi 2 function
@@ -30,8 +31,8 @@ const MATRIX = [];
 MATRIX.push(
   Array(BOARD_SIZE)
     .fill()
-    .map(() => Array(BOARD_SIZE).fill())
+    .map(() => Array(BOARD_SIZE).fill(0,0,BOARD_SIZE))
 );
-console.log(MATRIX, "asdasda");
+console.log(MATRIX);
 
 // console.log(Array(9).fill().map(()=>Array(9).fill()));
