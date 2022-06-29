@@ -1,7 +1,7 @@
 const BOARD_SIZE = 8;
 const MATRIX = [];
 const emptySlots = 0;
-const bunnySlots = 1;
+const bunnySlot = 1;
 // ha start sxmeluc 2 functiona ashxatelu demi hamar, heto avelanaluya eli, kzganq yntacqum
 
 // hmi 2 function
@@ -28,11 +28,29 @@ const bunnySlots = 1;
 // }
 // document.body.appendChild(table);
 
-MATRIX.push(
-  Array(BOARD_SIZE)
-    .fill()
-    .map(() => Array(BOARD_SIZE).fill(0,0,BOARD_SIZE))
-);
-console.log(MATRIX);
+const createEmptyBoardMatrix = () => {
+  MATRIX.push(
+    Array(BOARD_SIZE)
+      .fill()
+      .map(() => Array(BOARD_SIZE).fill(0, 0, BOARD_SIZE))
+  );
 
-// console.log(Array(9).fill().map(()=>Array(9).fill()));
+  return console.log(MATRIX);
+};
+
+Array.prototype.sample = function () {
+  return this[Math.floor(Math.random() * this.length)];
+};
+
+const setBunnyPosition = (position) => {
+  return MATRIX.Math.random() * position
+
+};
+
+console.log(setBunnyPosition(2));
+
+
+
+const startGame = () => {
+  createEmptyBoardMatrix();
+};
