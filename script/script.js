@@ -32,25 +32,26 @@ const createEmptyBoardMatrix = () => {
   MATRIX.push(
     Array(BOARD_SIZE)
       .fill()
-      .map(() => Array(BOARD_SIZE).fill(0, 0, BOARD_SIZE))
+      .map(() => Array(BOARD_SIZE).fill(emptySlots, 0, BOARD_SIZE))
   );
 
   return console.log(MATRIX);
 };
 
-Array.prototype.sample = function () {
-  return this[Math.floor(Math.random() * this.length)];
-};
+// Array.prototype.sample = function () {
+//   return this[Math.floor(Math.random() * this.length)];
+// };
 
-const setBunnyPosition = (position) => {
-  return MATRIX.Math.random() * position
+// const setBunnyPosition = (position) => {
+//   return MATRIX.Math.random() * position
 
-};
+// };
 
-console.log(setBunnyPosition(2));
+// console.log(setBunnyPosition(2));
 
 
 
 const startGame = () => {
   createEmptyBoardMatrix();
 };
+ startGame()
