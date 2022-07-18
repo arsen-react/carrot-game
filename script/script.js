@@ -35,23 +35,41 @@ const createEmptyBoardMatrix = () => {
       .map(() => Array(BOARD_SIZE).fill(emptySlots, 0, BOARD_SIZE))
   );
 
-  return console.log(MATRIX);
+  // return console.log(MATRIX);
 };
 
-// Array.prototype.sample = function () {
-//   return this[Math.floor(Math.random() * this.length)];
-// };
+const getRandomPosition = () => {
+  const row = Math.floor(Math.random() * BOARD_SIZE);
+  const column = Math.floor(Math.random() * BOARD_SIZE);
 
-// const setBunnyPosition = (position) => {
-//   return MATRIX.Math.random() * position
+  return row, column;
+};
 
-// };
+const setBunnyPosition = () => {
+ const {row,column} = getRandomPosition()
 
-// console.log(setBunnyPosition(2));
-
-
+ MATRIX[row][column] = bunnySlot
+};
 
 const startGame = () => {
   createEmptyBoardMatrix();
+  getRandomPosition();
 };
- startGame()
+startGame();
+
+// const random = () =>{
+// console.log(MATRIX.Math.floor(Math.random() * MATRIX.length));
+// }
+
+// console.log(MATRIX);
+
+// setBunnyPosition()
+
+// var a = ['a', 'b', 'c', 'd', 'e', 'f'];
+// var randomValue = a[Math.floor(a.length * Math.random())];
+
+// console.log(randomValue);
+
+// console.log(Math.floor(Math.random() * 8 ));
+
+// random()
