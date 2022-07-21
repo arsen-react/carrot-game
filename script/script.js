@@ -1,13 +1,13 @@
 const BOARD_SIZE = 8;
 let MATRIX;
-const emptySlot = 0;
-const bunnySlot = 1;
+const EMPTYSLOT = 0;
+const BUNNYSLOT = 1;
 const ROOT_DIV = document.getElementById("root");
 
 const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
-    .fill(emptySlot)
-    .map(() => new Array(BOARD_SIZE).fill(emptySlot));
+    .fill(EMPTYSLOT)
+    .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
 };
 
 const getRandomPosition = () => {
@@ -20,8 +20,7 @@ const getRandomPosition = () => {
 const setBunnyPosition = () => {
   const { row, column } = getRandomPosition();
 
-  MATRIX[row][column] = bunnySlot;
-  console.log(MATRIX);
+  MATRIX[row][column] = BUNNYSLOT;
 };
 
 const createHTMLElement = (elementType, parent, className, id) => {
@@ -62,5 +61,3 @@ const startGame = () => {
   setBunnyPosition();
   createBoardUi();
 };
-
-
