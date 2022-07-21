@@ -19,9 +19,9 @@ const getRandomPosition = () => {
 
 const setBunnyPosition = () => {
   const { row, column } = getRandomPosition();
-  console.log(MATRIX);
 
   MATRIX[row][column] = bunnySlot;
+  console.log(MATRIX);
 };
 
 const createHTMLElement = (elementType, parent, className, id) => {
@@ -37,22 +37,30 @@ const createHTMLElement = (elementType, parent, className, id) => {
 
 const createBoardSquare = (rowID, columnID) => {
   const boardWrapper = document.getElementById("board-wrapper");
-  createHTMLElement("div", boardWrapper, 'square', `${rowID}${columnID}`);
+  createHTMLElement("div", boardWrapper, "square", `${rowID}${columnID}`);
 };
 
 const createBoardUi = () => {
   createHTMLElement("div", ROOT_DIV, null, "board-wrapper");
   MATRIX.forEach((row, rowID) => {
     row.forEach((column, columnID) => {
-   
       createBoardSquare(rowID, columnID);
     });
   });
 };
 
+const removeBoard = () => {
+  const boardWrapper = document.getElementById("board-wrapper");
+  if (boardWrapper) {
+    boardWrapper.remove();
+  }
+};
+
 const startGame = () => {
+  removeBoard();
   createEmptyBoardMatrix();
   setBunnyPosition();
   createBoardUi();
 };
-startGame();
+
+
