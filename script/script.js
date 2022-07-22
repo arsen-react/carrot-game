@@ -6,7 +6,7 @@ const ROOT_DIV = document.getElementById("root");
 
 const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
-    .fill(EMPTYSLOT)
+    .fill()
     .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
 };
 
