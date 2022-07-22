@@ -8,6 +8,7 @@ const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
     .fill()
     .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
+    console.log(MATRIX);
 };
 
 const getRandomPosition = () => {
@@ -19,7 +20,6 @@ const getRandomPosition = () => {
 
 const setBunnyPosition = () => {
   const { row, column } = getRandomPosition();
-
   MATRIX[row][column] = BUNNYSLOT;
 };
 
@@ -42,7 +42,7 @@ const createBoardSquare = (rowID, columnID) => {
 const createBoardUi = () => {
   createHTMLElement("div", ROOT_DIV, null, "board-wrapper");
   MATRIX.forEach((row, rowID) => {
-    row.forEach((column, columnID) => {
+    row.forEach((column,columnID) => {
       createBoardSquare(rowID, columnID);
     });
   });
