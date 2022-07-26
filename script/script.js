@@ -21,8 +21,6 @@ const getRandomPosition = () => {
 const setBunnyPosition = () => {
   const { row, column } = getRandomPosition();
   MATRIX[row][column] = BUNNYSLOT;
-
-  return { row, column };
 };
 
 const createHTMLElement = (elementType, parent, className, id) => {
@@ -58,8 +56,18 @@ const removeBoard = () => {
 };
 
 const getBunnyPosition = () => {
-  const esim = ({ row, column } = setBunnyPosition());
-  console.log(esim);
+  MATRIX.forEach((row, rowID) => {
+    row.forEach((column, columnID) => {
+      if (column === 1) {
+        return { rowID, columnID };
+      }
+    });
+  });
+};
+
+const setBunnyImgPosition = () => {
+  const { rowID, columnID } = getBunnyPosition();
+  console.log(rowID, columnID);
 };
 
 const startGame = () => {
@@ -68,4 +76,5 @@ const startGame = () => {
   setBunnyPosition();
   createBoardUi();
   getBunnyPosition();
+  setBunnyImgPosition();
 };
