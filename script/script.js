@@ -58,8 +58,8 @@ const removeBoard = () => {
 };
 
 const getBunnyPosition = () => {
-  const { row, column } = setBunnyPosition();
-  console.log(row, column);
+  const esim = ({ row, column } = setBunnyPosition());
+  console.log(esim);
 };
 
 const startGame = () => {
@@ -67,5 +67,5 @@ const startGame = () => {
   createEmptyBoardMatrix();
   setBunnyPosition();
   createBoardUi();
-  esim();
+  getBunnyPosition();
 };
