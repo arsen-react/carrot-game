@@ -68,11 +68,6 @@ const setBunnyImgPosition = () => {
   createHTMLElement("img", square, "bunny-img", "");
 };
 
-// const as = () => {
-//   const { rowID, columnID } = setBunnyImgPosition();
-//   console.log(rowID, columnID);
-// };
-
 // const moveBunny = () => {
 //   window.addEventListener("keyup", (event) => {
 //     console.log(square);
@@ -96,14 +91,6 @@ const setBunnyImgPosition = () => {
 //   console.log(rowID, columnID);
 // };
 
-// const transpose = () => MATRIX.map((row, i) => MATRIX.map(col => col[i])).indexOf(BUNNYSLOT);
-// const indexx = ()  => MATRIX.findIndex(item => item).indexOf(1);
-
-// const find = () => MATRIX.map((row,rowID)=>{
-//     row.findIndex(rowID => rowID ===1)
-//     console.log(rowID);
-// })
-
 const startGame = () => {
   removeBoard();
   createEmptyBoardMatrix();
@@ -111,6 +98,5 @@ const startGame = () => {
   createBoardUi();
   getBunnyPosition();
   setBunnyImgPosition();
-
 };
 
