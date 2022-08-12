@@ -56,19 +56,53 @@ const removeBoard = () => {
 };
 
 const getBunnyPosition = () => {
-  MATRIX.forEach((row, rowID) => {
-    row.forEach((column, columnID) => {
-      if (column === 1) {
-        return { rowID, columnID };
-      }
-    });
-  });
+  for (const [rowID, row] of Object.entries(MATRIX)) {
+    const columnID = row.findIndex((column) => column == 1);
+    if (columnID > -1) return [rowID, columnID];
+  }
 };
 
 const setBunnyImgPosition = () => {
-  const { rowID, columnID } = getBunnyPosition();
-  console.log(rowID, columnID);
+  const [rowID, columnID] = getBunnyPosition() ?? [];
+  const square = document.getElementById(`${rowID}${columnID}`);
+  createHTMLElement("img", square, "bunny-img", "");
 };
+
+// const as = () => {
+//   const { rowID, columnID } = setBunnyImgPosition();
+//   console.log(rowID, columnID);
+// };
+
+// const moveBunny = () => {
+//   window.addEventListener("keyup", (event) => {
+//     console.log(square);
+//     switch (event.key) {
+//       case "ArrowLeft":
+//         console.log(setBunnyImgPosition.columnID);
+//         break;
+//       case "ArrowRight":
+//         square.style.left = parseInt(square.style.left) + 5 + "px";
+//         break;
+//       case "ArrowUp":
+//         square.style.top = parseInt(square.style.top) - 5 + "px";
+//         break;
+//       case "ArrowDown":
+//         square.style.top = parseInt(square.style.top) + 5 + "px";
+//         break;
+//       default:
+//         alert("Only Arrow Keys Are Allowed!");
+//     }
+//   });
+//   console.log(rowID, columnID);
+// };
+
+// const transpose = () => MATRIX.map((row, i) => MATRIX.map(col => col[i])).indexOf(BUNNYSLOT);
+// const indexx = ()  => MATRIX.findIndex(item => item).indexOf(1);
+
+// const find = () => MATRIX.map((row,rowID)=>{
+//     row.findIndex(rowID => rowID ===1)
+//     console.log(rowID);
+// })
 
 const startGame = () => {
   removeBoard();
@@ -77,4 +111,6 @@ const startGame = () => {
   createBoardUi();
   getBunnyPosition();
   setBunnyImgPosition();
+
 };
+
