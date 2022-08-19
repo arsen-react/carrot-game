@@ -57,7 +57,7 @@ const removeBoard = () => {
 
 const getBunnyPosition = () => {
   for (const [rowID, row] of Object.entries(MATRIX)) {
-    const columnID = row.findIndex((column) => column == 1);
+    const columnID = row.findIndex((column) => column === 1);
     if (columnID > -1) return [rowID, columnID];
   }
 };
@@ -67,6 +67,17 @@ const setBunnyImgPosition = () => {
   const square = document.getElementById(`${rowID}${columnID}`);
   createHTMLElement("img", square, "bunny-img", "");
 };
+
+const moveBunny = () =>{
+  const [rowID,columnID] = getBunnyPosition()
+  const square = document.getElementById(`${rowID-1}${columnID}`);
+  createHTMLElement("img", square, "bunny-img", "");
+}
+
+const moveBunnyUp = () =>{
+  window.addEventListener("keyup",moveBunny)
+  removeEventListener("keyup",moveBunnyUp)
+}
 
 // const moveBunny = () => {
 //   window.addEventListener("keyup", (event) => {
@@ -79,7 +90,7 @@ const setBunnyImgPosition = () => {
 //         square.style.left = parseInt(square.style.left) + 5 + "px";
 //         break;
 //       case "ArrowUp":
-//         square.style.top = parseInt(square.style.top) - 5 + "px";
+          
 //         break;
 //       case "ArrowDown":
 //         square.style.top = parseInt(square.style.top) + 5 + "px";
@@ -98,5 +109,6 @@ const startGame = () => {
   createBoardUi();
   getBunnyPosition();
   setBunnyImgPosition();
+  moveBunnyUp()
 };
 
