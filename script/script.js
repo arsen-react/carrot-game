@@ -55,53 +55,77 @@ const removeBoard = () => {
   }
 };
 
-const getBunnyPosition = () => {
-  for (const [rowID, row] of Object.entries(MATRIX)) {
-    const columnID = row.findIndex((column) => column === 1);
-    if (columnID > -1) return [rowID, columnID];
-  }
+const getObjectPosition = (objectSlot) => {
+  const coordinates = [];
+  MATRIX.forEach((row, rowID) => {
+    row.forEach((column, columnID) => {
+      if (column === objectSlot) {
+        coordinates.push(rowID, columnID);
+      }
+    });
+  });
+  return coordinates;
 };
 
 const setBunnyImgPosition = () => {
-  const [rowID, columnID] = getBunnyPosition() ?? [];
+  const [rowID, columnID] = getObjectPosition(BUNNYSLOT);
   const square = document.getElementById(`${rowID}${columnID}`);
   createHTMLElement("img", square, "bunny-img", "bunnyID");
 };
 
-const moveUp = () => {
-  const [rowID, columnID] = getBunnyPosition();
+const changeBunnyCoordinates = (axis, step) => {
+  const [currRow, currColumn] = getObjectPosition(BUNNYSLOT);
+  let [newRow, newColumn] = [currRow, currColumn];
 
-  MATRIX[rowID - 1][columnID] = BUNNYSLOT;
-  MATRIX[rowID][columnID] = EMPTYSLOT;
+  if (axis === "X") {
+    newColumn += step;
+  } else {
+    newRow += step;
+  }
+
+  MATRIX[newRow][newColumn] = BUNNYSLOT;
+  MATRIX[currRow][currColumn] = EMPTYSLOT;
+
+  changeBunnyPosition(currRow, currColumn, newRow, newColumn);
 };
 
-const removeBunnyImg = () => {
-  const bunnyIMG = document.getElementById("bunnyID");
-  bunnyIMG.remove();
+const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
+  const oldPosition = document.getElementById(`${oldRow}${oldColumn}`);
+  const newPosition = document.getElementById(`${newRow}${newColumn}`);
+
+  if (oldPosition && oldPosition.childNodes[0]) {
+    newPosition.appendChild(oldPosition.childNodes[0]);
+  }
 };
 
-const setBunnyImg = () => {
-  const [rowID, columnID] = getBunnyPosition();
-  const square = document.getElementById(`${rowID}${columnID}`);
-  createHTMLElement("img", square, "bunny-img", "bunnyID");
+const moveBunny = (event) => {
+  switch (event.key) {
+    case "ArrowLeft":
+      changeBunnyCoordinates("X", -1);
+      break;
+    case "ArrowRight":
+      changeBunnyCoordinates("X", 1);
+      break;
+    case "ArrowUp":
+      changeBunnyCoordinates("Y", -1);
+      break;
+    case "ArrowDown":
+      changeBunnyCoordinates("Y", 1);
+      break;
+    default:
+      break;
+  }
 };
 
-const moveBunnyUp = () => {
-  moveUp();
-  removeBunnyImg();
-  setBunnyImg();
+const gameReady = () => {
+  window.addEventListener("keyup", moveBunny);
 };
 
-const bunnyStepUp = () => {
-  window.addEventListener("keyup", moveBunnyUp);
-};
-
-const startGame = () => {
+function startGame() {
   createEmptyBoardMatrix();
   removeBoard();
   setBunnyPosition();
   createBoardUi();
-  getBunnyPosition();
   setBunnyImgPosition();
-  bunnyStepUp();
-};
+  gameReady();
+}
