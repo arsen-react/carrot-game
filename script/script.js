@@ -68,73 +68,33 @@ const setBunnyImgPosition = () => {
   createHTMLElement("img", square, "bunny-img", "bunnyID");
 };
 
-// const moveBunny = () => {
-//   let [rowID, columnID] = getBunnyPosition();
-//   let moveUp = rowID - 1;
-//   const square = document.getElementById(`${moveUp}${columnID}`);
-//   rowID = moveUp;
-//   createHTMLElement("img", square, "bunny-img", "");
-//   // return [rowID, columnID];
-// };
-
-// const removePreviousBunnyImg = () => {
-//   const [rowID, columnID] = getBunnyPosition();
-//   const square = document.getElementById(`${rowID}${columnID}`);
-//   square.parentNode.removeChild("bunny-img");
-// };
-
-// const moveBunnyUpDeleteImg = () => {
-//   moveBunny();
-//   // removePreviousBunnyImg();
-//   setBunnyImgPosition()
-// };
-
-// const removeClick = () =>{
-
-//   const [rowID,columnID] = getBunnyPosition()
-//   const squre = document.getElementById(`${rowID}${columnID}`)
-//   squre.removeEventListener('keyup',removeClick)
-// }
-
-const esim = () => {
+const moveUp = () => {
   const [rowID, columnID] = getBunnyPosition();
 
   MATRIX[rowID - 1][columnID] = BUNNYSLOT;
-  console.log(rowID, columnID);
-  console.log(rowID - 1, columnID);
   MATRIX[rowID][columnID] = EMPTYSLOT;
+};
+
+const removeBunnyImg = () => {
   const bunnyIMG = document.getElementById("bunnyID");
   bunnyIMG.remove();
-  const square = document.getElementById(`${rowID - 1}${columnID}`);
+};
+
+const setBunnyImg = () => {
+  const [rowID, columnID] = getBunnyPosition();
+  const square = document.getElementById(`${rowID}${columnID}`);
   createHTMLElement("img", square, "bunny-img", "bunnyID");
 };
 
 const moveBunnyUp = () => {
-  window.addEventListener("keyup", esim);
+  moveUp();
+  removeBunnyImg();
+  setBunnyImg();
 };
 
-// const moveBunny = () => {
-//   window.addEventListener("keyup", (event) => {
-//     console.log(square);
-//     switch (event.key) {
-//       case "ArrowLeft":
-//         console.log(setBunnyImgPosition.columnID);
-//         break;
-//       case "ArrowRight":
-//         square.style.left = parseInt(square.style.left) + 5 + "px";
-//         break;
-//       case "ArrowUp":
-
-//         break;
-//       case "ArrowDown":
-//         square.style.top = parseInt(square.style.top) + 5 + "px";
-//         break;
-//       default:
-//         alert("Only Arrow Keys Are Allowed!");
-//     }
-//   });
-//   console.log(rowID, columnID);
-// };
+const bunnyStepUp = () => {
+  window.addEventListener("keyup", moveBunnyUp);
+};
 
 const startGame = () => {
   createEmptyBoardMatrix();
@@ -143,6 +103,5 @@ const startGame = () => {
   createBoardUi();
   getBunnyPosition();
   setBunnyImgPosition();
-  moveBunnyUp();
-  // removePreviousBunnyImg();
+  bunnyStepUp();
 };
