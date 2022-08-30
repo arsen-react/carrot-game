@@ -8,7 +8,6 @@ const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
     .fill()
     .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
-  console.log("asdasd", MATRIX);
 };
 
 const getRandomPosition = () => {
@@ -73,7 +72,7 @@ const setBunnyImgPosition = () => {
   createHTMLElement("img", square, "bunny-img", "bunnyID");
 };
 
-const changeBunnyCoordinates = (axis, step) => {
+const checkAxis = (axis, step) => {
   const [currRow, currColumn] = getObjectPosition(BUNNYSLOT);
   let [newRow, newColumn] = [currRow, currColumn];
 
@@ -82,9 +81,6 @@ const changeBunnyCoordinates = (axis, step) => {
   } else {
     newRow += step;
   }
-
-  MATRIX[newRow][newColumn] = BUNNYSLOT;
-  MATRIX[currRow][currColumn] = EMPTYSLOT;
 
   changeBunnyPosition(currRow, currColumn, newRow, newColumn);
 };
@@ -101,16 +97,16 @@ const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
 const moveBunny = (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      changeBunnyCoordinates("X", -1);
+      checkAxis("X", -1);
       break;
     case "ArrowRight":
-      changeBunnyCoordinates("X", 1);
+      checkAxis("X", 1);
       break;
     case "ArrowUp":
-      changeBunnyCoordinates("Y", -1);
+      checkAxis("Y", -1);
       break;
     case "ArrowDown":
-      changeBunnyCoordinates("Y", 1);
+      checkAxis("Y", 1);
       break;
     default:
       break;
