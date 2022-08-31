@@ -68,7 +68,7 @@ body {
 .square {
   height: 60px;
   width: 60px;
-  background-color: crimson;
+  background-color: green;
   border-radius: 2px;
   border: 1px solid black;
 }

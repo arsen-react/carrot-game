@@ -14,12 +14,11 @@ const getRandomPosition = () => {
   const row = Math.floor(Math.random() * BOARD_SIZE);
   const column = Math.floor(Math.random() * BOARD_SIZE);
 
-  return { row, column };
+  return [row, column];
 };
 
 const setBunnyPosition = () => {
-  const { row, column } = getRandomPosition();
-
+  const [row, column] = getRandomPosition();
   MATRIX[row][column] = BUNNYSLOT;
 };
 
@@ -55,9 +54,74 @@ const removeBoard = () => {
   }
 };
 
-const startGame = () => {
-  removeBoard();
+const getObjectPosition = (objectSlot) => {
+  const coordinates = [];
+  MATRIX.forEach((row, rowID) => {
+    row.forEach((column, columnID) => {
+      if (column === objectSlot) {
+        coordinates.push(rowID, columnID);
+      }
+    });
+  });
+  return coordinates;
+};
+
+const setBunnyImgPosition = () => {
+  const [rowID, columnID] = getObjectPosition(BUNNYSLOT);
+  const square = document.getElementById(`${rowID}${columnID}`);
+  createHTMLElement("img", square, "bunny-img", "bunnyID");
+};
+
+const checkAxis = (axis, step) => {
+  const [currRow, currColumn] = getObjectPosition(BUNNYSLOT);
+  let [newRow, newColumn] = [currRow, currColumn];
+
+  if (axis === "X") {
+    newColumn += step;
+  } else {
+    newRow += step;
+  }
+
+  changeBunnyPosition(currRow, currColumn, newRow, newColumn);
+};
+
+const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
+  const oldPosition = document.getElementById(`${oldRow}${oldColumn}`);
+  const newPosition = document.getElementById(`${newRow}${newColumn}`);
+
+  if (oldPosition && oldPosition.childNodes[0]) {
+    newPosition.appendChild(oldPosition.childNodes[0]);
+  }
+};
+
+const moveBunny = (event) => {
+  switch (event.key) {
+    case "ArrowLeft":
+      checkAxis("X", -1);
+      break;
+    case "ArrowRight":
+      checkAxis("X", 1);
+      break;
+    case "ArrowUp":
+      checkAxis("Y", -1);
+      break;
+    case "ArrowDown":
+      checkAxis("Y", 1);
+      break;
+    default:
+      break;
+  }
+};
+
+const gameReady = () => {
+  window.addEventListener("keyup", moveBunny);
+};
+
+function startGame() {
   createEmptyBoardMatrix();
+  removeBoard();
   setBunnyPosition();
   createBoardUi();
-};
+  setBunnyImgPosition();
+  gameReady();
+}
