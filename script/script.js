@@ -82,6 +82,8 @@ const checkAxis = (axis, step) => {
     newRow += step;
   }
 
+  changeNextCoordinate(newRow, newColumn, currRow, currColumn);
+
   changeBunnyPosition(currRow, currColumn, newRow, newColumn);
 };
 
@@ -92,6 +94,11 @@ const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
   if (oldPosition && oldPosition.childNodes[0]) {
     newPosition.appendChild(oldPosition.childNodes[0]);
   }
+};
+
+const changeNextCoordinate = (newRow, newColumn, currRow, currColumn) => {
+  MATRIX[newRow][newColumn] = BUNNYSLOT;
+  MATRIX[currRow][currColumn] = EMPTYSLOT;
 };
 
 const moveBunny = (event) => {
