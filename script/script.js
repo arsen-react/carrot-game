@@ -8,6 +8,7 @@ const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
     .fill()
     .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
+  console.log(MATRIX);
 };
 
 const getRandomPosition = () => {
@@ -81,10 +82,17 @@ const checkAxis = (axis, step) => {
   } else {
     newRow += step;
   }
-
-  changeNextCoordinate(newRow, newColumn, currRow, currColumn);
+   
+  
+  change(newRow, newColumn, currRow, currColumn);
 
   changeBunnyPosition(currRow, currColumn, newRow, newColumn);
+  const ar = MATRIX[0]
+  MATRIX[0] = MATRIX[MATRIX.length -1]
+  MATRIX[MATRIX.length - 1] = ar
+  
+  console.log(ar);
+
 };
 
 const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
@@ -96,10 +104,30 @@ const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
   }
 };
 
-const changeNextCoordinate = (newRow, newColumn, currRow, currColumn) => {
-  MATRIX[newRow][newColumn] = BUNNYSLOT;
-  MATRIX[currRow][currColumn] = EMPTYSLOT;
+const switchaper = (rowID, columnID) => {
+  if (columnID === 0) {
+    MATRIX[rowID.length - 1][columnID.length -1] = BUNNYSLOT;
+    console.log(rowID, columnID), "asd";
+  } else if (rowID === 0) {
+    MATRIX[rowID.length - 1][columnID.length - 1] = BUNNYSLOT;
+    console.log(rowID, columnID, "qwe");
+  }
 };
+
+
+
+//   String[] tmp = A[0];
+// A[0] = A[A.length-1];
+// A[A.length-1] = tmp;
+
+const change = (newRow, newColumn, currRow, currColumn) => {
+MATRIX[newRow][newColumn] = BUNNYSLOT;
+MATRIX[currRow][currColumn] = EMPTYSLOT;
+
+// ste pti lini argumentnerov function vor  poxacnem ay es sranq
+};
+ 
+
 
 const moveBunny = (event) => {
   switch (event.key) {
