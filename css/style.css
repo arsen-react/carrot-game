@@ -80,4 +80,14 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  position: absolute;
+}
+
+.ground-img {
+  width: 60px;
+  height: 60px;
+  background-image: url("../images/ground.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
