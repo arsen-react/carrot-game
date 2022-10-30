@@ -1,13 +1,23 @@
+"use strict";
+
 const BOARD_SIZE = 8;
 let MATRIX;
-const EMPTYSLOT = 0;
-const BUNNYSLOT = 1;
+const EMPTY_SLOT = 0;
+const BUNNY_SLOT = 1;
+const CARROT_SLOT = 2;
+const SOIL = 3;
+const BUNNY_ON_SOIL = 4;
 const ROOT_DIV = document.getElementById("root");
+
+const rightEdge = 7
+const leftEdge = 0
+const topEdge = 0
+const bottomEdge = 7
 
 const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
     .fill()
-    .map(() => new Array(BOARD_SIZE).fill(EMPTYSLOT));
+    .map(() => new Array(BOARD_SIZE).fill(EMPTY_SLOT));
   console.log(MATRIX);
 };
 
@@ -20,7 +30,7 @@ const getRandomPosition = () => {
 
 const setBunnyPosition = () => {
   const [row, column] = getRandomPosition();
-  MATRIX[row][column] = BUNNYSLOT;
+  MATRIX[row][column] = BUNNY_SLOT;
 };
 
 const createHTMLElement = (elementType, parent, className, id) => {
@@ -54,7 +64,6 @@ const removeBoard = () => {
     boardWrapper.remove();
   }
 };
-
 const getObjectPosition = (objectSlot) => {
   const coordinates = [];
   MATRIX.forEach((row, rowID) => {
@@ -67,36 +76,51 @@ const getObjectPosition = (objectSlot) => {
   return coordinates;
 };
 
-const setBunnyImgPosition = () => {
-  const [rowID, columnID] = getObjectPosition(BUNNYSLOT);
+const setImagePosition = (character, className, id) => {
+  const [rowID, columnID] = getObjectPosition(character);
   const square = document.getElementById(`${rowID}${columnID}`);
-  createHTMLElement("img", square, "bunny-img", "bunnyID");
+  createHTMLElement("img", square, className, id);
 };
 
-const checkAxis = (axis, step) => {
-  const [currRow, currColumn] = getObjectPosition(BUNNYSLOT);
+const getCurrentSlot = () => {
+  if (getObjectPosition(BUNNY_SLOT).length) {
+    return BUNNY_SLOT;
+  }
+  if (getObjectPosition(BUNNY_ON_SOIL).length) {
+    return BUNNY_ON_SOIL;
+  }
+  if (getObjectPosition(EMPTY_SLOT).length) {
+    return EMPTY_SLOT;
+  }
+};
+
+const checkBunnyStep = (line, step, edgeCoordinate, nextEdge) => {
+  const currentSlot = getCurrentSlot();
+
+  const [currRow, currColumn] = getObjectPosition(currentSlot);
+
   let [newRow, newColumn] = [currRow, currColumn];
 
-  if (axis === "X") {
-    newColumn += step;
-  } else {
-    newRow += step;
+  if (line === "X" && currColumn === edgeCoordinate) {
+    newColumn = nextEdge
+  } else if(line === "X" ){
+     newColumn += step
+  }else if(line === "Y" && currRow === edgeCoordinate){
+    newRow = nextEdge
+  }else{
+    newRow += step
   }
-   
-  
-  change(newRow, newColumn, currRow, currColumn);
 
-  changeBunnyPosition(currRow, currColumn, newRow, newColumn);
-  const ar = MATRIX[0]
-  MATRIX[0] = MATRIX[MATRIX.length -1]
-  MATRIX[MATRIX.length - 1] = ar
-  
-  console.log(ar);
+  const nextObject = MATRIX[newRow][newColumn];
+  const newObject = nextObject === EMPTY_SLOT ? BUNNY_SLOT : BUNNY_ON_SOIL
 
+  changePreviousValueWithNew(currentSlot, newObject, newRow, newColumn);
+
+  changeBunnyPosition(newRow, newColumn, currRow, currColumn);
 };
 
-const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
-  const oldPosition = document.getElementById(`${oldRow}${oldColumn}`);
+const changeBunnyPosition = (newRow, newColumn, currRow, currColumn) => {
+  const oldPosition = document.getElementById(`${currRow}${currColumn}`);
   const newPosition = document.getElementById(`${newRow}${newColumn}`);
 
   if (oldPosition && oldPosition.childNodes[0]) {
@@ -104,44 +128,42 @@ const changeBunnyPosition = (oldRow, oldColumn, newRow, newColumn) => {
   }
 };
 
-const switchaper = (rowID, columnID) => {
-  if (columnID === 0) {
-    MATRIX[rowID.length - 1][columnID.length -1] = BUNNYSLOT;
-    console.log(rowID, columnID), "asd";
-  } else if (rowID === 0) {
-    MATRIX[rowID.length - 1][columnID.length - 1] = BUNNYSLOT;
-    console.log(rowID, columnID, "qwe");
+const setCarrotCoordinate = (e) => {
+  if (e.keyCode === 32) {
+    const [currRow, currColumn] = getObjectPosition(BUNNY_SLOT);
+    const square = document.getElementById(`${currRow}${currColumn}`);
+
+    changePreviousValueWithNew(BUNNY_SLOT, BUNNY_ON_SOIL);
+    setImagePosition(BUNNY_ON_SOIL, "ground-img", "groundImg");
   }
 };
 
-
-
-//   String[] tmp = A[0];
-// A[0] = A[A.length-1];
-// A[A.length-1] = tmp;
-
-const change = (newRow, newColumn, currRow, currColumn) => {
-MATRIX[newRow][newColumn] = BUNNYSLOT;
-MATRIX[currRow][currColumn] = EMPTYSLOT;
-
-// ste pti lini argumentnerov function vor  poxacnem ay es sranq
+const changePreviousValueWithNew = (
+  currentObject,
+  changeObject,
+  newRow,
+  newColumn
+) => {
+  const [currRow, currColumn] = getObjectPosition(currentObject);
+  MATRIX[currRow][currColumn] = changeObject;
+  if (newRow && newColumn) {
+    MATRIX[newRow][newColumn] = BUNNY_SLOT;
+  }
 };
- 
-
 
 const moveBunny = (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      checkAxis("X", -1);
+      checkBunnyStep("X", -1, leftEdge, rightEdge);
       break;
     case "ArrowRight":
-      checkAxis("X", 1);
+      checkBunnyStep("X", 1, rightEdge, leftEdge);
       break;
     case "ArrowUp":
-      checkAxis("Y", -1);
+      checkBunnyStep("Y", -1, topEdge, bottomEdge);
       break;
     case "ArrowDown":
-      checkAxis("Y", 1);
+      checkBunnyStep("Y", 1, bottomEdge, topEdge);
       break;
     default:
       break;
@@ -152,11 +174,16 @@ const gameReady = () => {
   window.addEventListener("keyup", moveBunny);
 };
 
+const setCarrot = () => {
+  window.addEventListener("keydown", setCarrotCoordinate);
+};
+
 function startGame() {
   createEmptyBoardMatrix();
   removeBoard();
   setBunnyPosition();
   createBoardUi();
-  setBunnyImgPosition();
+  setImagePosition(BUNNY_SLOT, "bunny-img", "bunnyID");
   gameReady();
+  setCarrot();
 }
