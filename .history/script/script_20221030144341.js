@@ -13,24 +13,21 @@ const rightEdge = 7;
 const leftEdge = 0;
 const topEdge = 0;
 const bottomEdge = 7;
+
 const CARROTS_TO_WIN = 3;
-let SOILS_COUNT = 0;
 
-const checkGameEnd = (points) => {
-  if (points === CARROTS_TO_WIN) {
-    alert("YOU WON!");
-    startGame();
+const  incrementSchyot = () => {
+  const pointsElem = document.getElementById('points')
+  let points = parseInt(pointsElem.innerHTML)
+
+  if(points === CARROTS_TO_WIN){
+    alert('YOU WON!')
+    startGame()
+    return
   }
-};
-
-const incrementPoints = () => {
-  const pointsElem = document.getElementById("points");
-  let points = parseInt(pointsElem.innerHTML);
-  points++;
-  pointsElem.innerHTML = `${points}`;
-
-  checkGameEnd(points);
-};
+  points++
+  pointsElem.innerHTML = `${points}`
+}
 
 const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
@@ -85,8 +82,9 @@ const getObjectPosition = (objectSlot) => {
   const coordinates = [];
   MATRIX.forEach((row, rowID) => {
     row.forEach((column, columnID) => {
-      if(coordinates.length < 2 && column === objectSlot)
+      if (column === objectSlot) {
         coordinates.push(rowID, columnID);
+      }
     });
   });
   return coordinates;
@@ -139,8 +137,8 @@ const checkBunnyStep = (line, step, edgeCoordinate, nextEdge) => {
   } else if (nextSlot === CARROT_SLOT) {
     // bunny eats carrot
     currentSlot = EMPTY_SLOT;
-    clearTimeout(TIMEOUT_ID);
-    incrementPoints();
+    clearTimeout(TIMEOUT_ID)
+    
   } else {
     // we dont let bunny to move
     currentSlot = BUNNY_SLOT;
@@ -151,7 +149,6 @@ const checkBunnyStep = (line, step, edgeCoordinate, nextEdge) => {
   }
 
   changePreviousValueWithNew(newRow, newColumn);
-
   changeBunnyPosition(newRow, newColumn, currRow, currColumn);
 };
 
@@ -160,47 +157,42 @@ const changeBunnyPosition = (newRow, newColumn, currRow, currColumn) => {
   const newPosition = document.getElementById(`${newRow}${newColumn}`);
 
   if (oldPosition && oldPosition.childNodes[0]) {
-    if (MATRIX[newRow][newColumn] === BUNNY_SLOT) {
-      newPosition.innerHTML = "";
-    }
     newPosition.appendChild(oldPosition.childNodes[0]);
   }
 };
 
 const setCarrotCoordinate = (e) => {
   if (e.keyCode === 32) {
-    const isCarrotShown = !!getObjectPosition(CARROT_SLOT)[0];
-    const isSoilSetted = !!getObjectPosition(SOIL)[0];
-
-    if(isSoilSetted || isCarrotShown){
-      // dont let to set another carrot
-      return
-    }
-
-    const currentCharacter = getCurrentSlot();
+    const currentCharacter = getCurrentSlot()
     const [currRow, currColumn] = getObjectPosition(currentCharacter);
     MATRIX[currRow][currColumn] = BUNNY_ON_SOIL;
 
     setImagePosition(BUNNY_ON_SOIL, "ground-img");
-
     TIMEOUT_ID = setTimeout(() => {
-        const [soilRow, soilColumn] = getObjectPosition(SOIL);
-        MATRIX[soilRow][soilColumn] = CARROT_SLOT;
-        setImagePosition(CARROT_SLOT, "carrot-img");
-    }, 3000);
-
+      const [soilRow, soilColumn] = getObjectPosition(SOIL);
+      MATRIX[soilRow][soilColumn] = CARROT_SLOT
+      setImagePosition(CARROT_SLOT, "carrot-img");
+    }, 5000)
+   
     e.preventDefault();
   }
 };
 
 const changePreviousValueWithNew = (newRow, newColumn) => {
-  const currentCharacter = getCurrentSlot();
+  const currentCharacter = getCurrentSlot()
   const [currRow, currColumn] = getObjectPosition(currentCharacter);
 
-  if (currentCharacter === BUNNY_ON_SOIL) {
-    MATRIX[currRow][currColumn] = SOIL;
-  } else {
+  if(currentCharacter === BUNNY_ON_SOIL){
+    MATRIX[currRow][currColumn] = SOIL
+  }else{
     MATRIX[currRow][currColumn] = EMPTY_SLOT;
+  }
+
+  console.log('CHARACTER: ', currnetCharacter);
+
+  if(MATRIX[newRow][newColumn] === CARROT_SLOT){
+    setImagePosition(BUNNY_SLOT, "bunny-img", "bunnyID");
+    incrementSchyot()
   }
 
   MATRIX[newRow][newColumn] = BUNNY_SLOT;

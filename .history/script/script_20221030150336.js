@@ -13,10 +13,10 @@ const rightEdge = 7;
 const leftEdge = 0;
 const topEdge = 0;
 const bottomEdge = 7;
-const CARROTS_TO_WIN = 3;
-let SOILS_COUNT = 0;
 
-const checkGameEnd = (points) => {
+const CARROTS_TO_WIN = 3;
+
+const checkGameEnd = () => {
   if (points === CARROTS_TO_WIN) {
     alert("YOU WON!");
     startGame();
@@ -29,7 +29,7 @@ const incrementPoints = () => {
   points++;
   pointsElem.innerHTML = `${points}`;
 
-  checkGameEnd(points);
+  checkGameEnd();
 };
 
 const createEmptyBoardMatrix = () => {
@@ -85,8 +85,9 @@ const getObjectPosition = (objectSlot) => {
   const coordinates = [];
   MATRIX.forEach((row, rowID) => {
     row.forEach((column, columnID) => {
-      if(coordinates.length < 2 && column === objectSlot)
+      if (column === objectSlot) {
         coordinates.push(rowID, columnID);
+      }
     });
   });
   return coordinates;
@@ -169,24 +170,15 @@ const changeBunnyPosition = (newRow, newColumn, currRow, currColumn) => {
 
 const setCarrotCoordinate = (e) => {
   if (e.keyCode === 32) {
-    const isCarrotShown = !!getObjectPosition(CARROT_SLOT)[0];
-    const isSoilSetted = !!getObjectPosition(SOIL)[0];
-
-    if(isSoilSetted || isCarrotShown){
-      // dont let to set another carrot
-      return
-    }
-
     const currentCharacter = getCurrentSlot();
     const [currRow, currColumn] = getObjectPosition(currentCharacter);
     MATRIX[currRow][currColumn] = BUNNY_ON_SOIL;
 
     setImagePosition(BUNNY_ON_SOIL, "ground-img");
-
     TIMEOUT_ID = setTimeout(() => {
-        const [soilRow, soilColumn] = getObjectPosition(SOIL);
-        MATRIX[soilRow][soilColumn] = CARROT_SLOT;
-        setImagePosition(CARROT_SLOT, "carrot-img");
+      const [soilRow, soilColumn] = getObjectPosition(SOIL);
+      MATRIX[soilRow][soilColumn] = CARROT_SLOT;
+      setImagePosition(CARROT_SLOT, "carrot-img");
     }, 3000);
 
     e.preventDefault();

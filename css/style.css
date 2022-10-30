@@ -66,6 +66,7 @@ body {
 }
 
 .square {
+  position: relative;
   height: 60px;
   width: 60px;
   background-color: green;
@@ -93,11 +94,16 @@ body {
   position: relative;
 }
 
-/* .bunny-on-soil {
+.carrot-img {
+  z-index: 1;
   width: 60px;
   height: 60px;
-  background-image: url("../images/ground.png");
+  background-image: url("../images/carrot.png");
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
-} */
+  background-size: cover;
+
+  position: absolute;
+  left: 0;
+  top:0;
+}
