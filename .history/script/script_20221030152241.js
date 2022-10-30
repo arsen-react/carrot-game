@@ -17,6 +17,7 @@ const CARROTS_TO_WIN = 3;
 let SOILS_COUNT = 0;
 
 const checkGameEnd = (points) => {
+  console.log(points, CARROTS_TO_WIN);
   if (points === CARROTS_TO_WIN) {
     alert("YOU WON!");
     startGame();

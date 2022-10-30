@@ -16,7 +16,7 @@ const bottomEdge = 7;
 const CARROTS_TO_WIN = 3;
 let SOILS_COUNT = 0;
 
-const checkGameEnd = (points) => {
+const checkGameEnd = () => {
   if (points === CARROTS_TO_WIN) {
     alert("YOU WON!");
     startGame();
@@ -29,7 +29,7 @@ const incrementPoints = () => {
   points++;
   pointsElem.innerHTML = `${points}`;
 
-  checkGameEnd(points);
+  checkGameEnd();
 };
 
 const createEmptyBoardMatrix = () => {
@@ -169,14 +169,10 @@ const changeBunnyPosition = (newRow, newColumn, currRow, currColumn) => {
 
 const setCarrotCoordinate = (e) => {
   if (e.keyCode === 32) {
-    const isCarrotShown = !!getObjectPosition(CARROT_SLOT)[0];
-    const isSoilSetted = !!getObjectPosition(SOIL)[0];
-
-    if(isSoilSetted || isCarrotShown){
-      // dont let to set another carrot
+    const [soilRow, soilColumn] = getObjectPosition(SOIL);
+    if(soilRow){
       return
     }
-
     const currentCharacter = getCurrentSlot();
     const [currRow, currColumn] = getObjectPosition(currentCharacter);
     MATRIX[currRow][currColumn] = BUNNY_ON_SOIL;

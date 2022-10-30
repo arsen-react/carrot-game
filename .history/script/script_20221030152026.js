@@ -16,7 +16,7 @@ const bottomEdge = 7;
 const CARROTS_TO_WIN = 3;
 let SOILS_COUNT = 0;
 
-const checkGameEnd = (points) => {
+const checkGameEnd = () => {
   if (points === CARROTS_TO_WIN) {
     alert("YOU WON!");
     startGame();
@@ -29,7 +29,7 @@ const incrementPoints = () => {
   points++;
   pointsElem.innerHTML = `${points}`;
 
-  checkGameEnd(points);
+  checkGameEnd();
 };
 
 const createEmptyBoardMatrix = () => {
