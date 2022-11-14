@@ -1,20 +1,40 @@
 "use strict";
+const ROOT_DIV = document.getElementById("root");
+
+let MATRIX;
+let TIMEOUT_ID;
 
 const BOARD_SIZE = 8;
-let MATRIX;
+const CARROTS_TO_WIN = 3;
+
 const EMPTY_SLOT = 0;
 const BUNNY_SLOT = 1;
 const CARROT_SLOT = 2;
-const SOIL = 3;
-const BUNNY_ON_SOIL = 4;
-const ROOT_DIV = document.getElementById("root");
-let TIMEOUT_ID;
-const rightEdge = 7;
-const leftEdge = 0;
-const topEdge = 0;
-const bottomEdge = 7;
-const CARROTS_TO_WIN = 10;
-let SOILS_COUNT = 0;
+const SOIL_SLOT = 3;
+const BUNNY_ON_SOIL_SLOT = 4;
+
+const edges = {
+  right: 7,
+  left: 0,
+  top: 0,
+  bottom: 7
+}
+
+const checkGameEnd = (points) => {
+  if (points === CARROTS_TO_WIN) {
+    alert("YOU WON!");
+    startGame();
+  }
+};
+
+const incrementPoints = () => {
+  const pointsElem = document.getElementById("points");
+  let points = parseInt(pointsElem.innerHTML);
+  points++;
+  pointsElem.innerHTML = `${points}`;
+
+  checkGameEnd(points);
+};
 
 const createEmptyBoardMatrix = () => {
   MATRIX = new Array(BOARD_SIZE)
@@ -87,8 +107,8 @@ const getCurrentSlot = () => {
   if (getObjectPosition(BUNNY_SLOT).length) {
     return BUNNY_SLOT;
   }
-  if (getObjectPosition(BUNNY_ON_SOIL).length) {
-    return BUNNY_ON_SOIL;
+  if (getObjectPosition(BUNNY_ON_SOIL_SLOT).length) {
+    return BUNNY_ON_SOIL_SLOT;
   }
   if (getObjectPosition(EMPTY_SLOT).length) {
     return EMPTY_SLOT;
@@ -154,22 +174,22 @@ const changeBunnyPosition = (newRow, newColumn, currRow, currColumn) => {
 const setCarrotCoordinate = (e) => {
   if (e.keyCode === 32) {
     const isCarrotShown = !!getObjectPosition(CARROT_SLOT)[0];
-    const isSoilSetted = !!getObjectPosition(SOIL)[0];
+    const isSOIL_SLOTSetted = !!getObjectPosition(SOIL_SLOT)[0];
 
-    if (isSoilSetted || isCarrotShown) {
+    if (isSOIL_SLOTSetted || isCarrotShown) {
       // dont let to set another carrot
       return;
     }
 
     const currentCharacter = getCurrentSlot();
     const [currRow, currColumn] = getObjectPosition(currentCharacter);
-    MATRIX[currRow][currColumn] = BUNNY_ON_SOIL;
+    MATRIX[currRow][currColumn] = BUNNY_ON_SOIL_SLOT;
 
-    setImagePosition(BUNNY_ON_SOIL, "ground-img");
+    setImagePosition(BUNNY_ON_SOIL_SLOT, "ground-img");
 
     TIMEOUT_ID = setTimeout(() => {
-      const [soilRow, soilColumn] = getObjectPosition(SOIL);
-      MATRIX[soilRow][soilColumn] = CARROT_SLOT;
+      const [SOIL_SLOTRow, SOIL_SLOTColumn] = getObjectPosition(SOIL_SLOT);
+      MATRIX[SOIL_SLOTRow][SOIL_SLOTColumn] = CARROT_SLOT;
       setImagePosition(CARROT_SLOT, "carrot-img");
     }, 3000);
 
@@ -181,8 +201,8 @@ const changePreviousValueWithNew = (newRow, newColumn) => {
   const currentCharacter = getCurrentSlot();
   const [currRow, currColumn] = getObjectPosition(currentCharacter);
 
-  if (currentCharacter === BUNNY_ON_SOIL) {
-    MATRIX[currRow][currColumn] = SOIL;
+  if (currentCharacter === BUNNY_ON_SOIL_SLOT) {
+    MATRIX[currRow][currColumn] = SOIL_SLOT;
   } else {
     MATRIX[currRow][currColumn] = EMPTY_SLOT;
   }
@@ -193,16 +213,16 @@ const changePreviousValueWithNew = (newRow, newColumn) => {
 const moveBunny = (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      checkBunnyStep("X", -1, leftEdge, rightEdge);
+      checkBunnyStep("X", -1, edges.left, edges.right);
       break;
     case "ArrowRight":
-      checkBunnyStep("X", 1, rightEdge, leftEdge);
+      checkBunnyStep("X", 1, edges.right, edges.left);
       break;
     case "ArrowUp":
-      checkBunnyStep("Y", -1, topEdge, bottomEdge);
+      checkBunnyStep("Y", -1, edges.top, edges.bottom);
       break;
     case "ArrowDown":
-      checkBunnyStep("Y", 1, bottomEdge, topEdge);
+      checkBunnyStep("Y", 1, edges.bottom, edges.top);
       break;
     default:
       break;
@@ -215,36 +235,6 @@ const gameReady = () => {
 
 const setCarrot = () => {
   window.addEventListener("keydown", setCarrotCoordinate);
-};
-
-const checkGameEnd = (points) => {
-  if (points === CARROTS_TO_WIN) {
-    alert("YOU WON!");
-    removeListeners();
-    startGame();
-    clearPoints();
-  }
-};
-
-const incrementPoints = () => {
-  const pointsElem = document.getElementById("points");
-  let points = parseInt(pointsElem.innerHTML);
-  points++;
-  pointsElem.innerHTML = `${points}`;
-
-  checkGameEnd(points);
-};
-
-const clearPoints = () => {
-  const pointsToZero = 0;
-  const pointsElem = document.getElementById("points");
-  let points = parseInt(pointsElem.innerHTML);
-  pointsElem.innerHTML = `${pointsToZero}`;
-};
-
-const removeListeners = () => {
-  window.removeEventListener("keydown", moveBunny);
-  window.removeEventListener("keydown", setCarrotCoordinate);
 };
 
 function startGame() {
