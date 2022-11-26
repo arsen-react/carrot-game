@@ -9,10 +9,12 @@ const SOIL = 3;
 const BUNNY_ON_SOIL = 4;
 const ROOT_DIV = document.getElementById("root");
 let TIMEOUT_ID;
-const rightEdge = 7;
-const leftEdge = 0;
-const topEdge = 0;
-const bottomEdge = 7;
+const edges = {
+  right: 7,
+  left: 0,
+  top: 0,
+  bottom: 7
+}
 const CARROTS_TO_WIN = 10;
 let SOILS_COUNT = 0;
 
@@ -193,37 +195,27 @@ const changePreviousValueWithNew = (newRow, newColumn) => {
 const moveBunny = (event) => {
   switch (event.key) {
     case "ArrowLeft":
-      checkBunnyStep("X", -1, leftEdge, rightEdge);
+      checkBunnyStep("X", -1, edges.left, edges.right);
       break;
     case "ArrowRight":
-      checkBunnyStep("X", 1, rightEdge, leftEdge);
+      checkBunnyStep("X", 1, edges.right, edges.left);
       break;
     case "ArrowUp":
-      checkBunnyStep("Y", -1, topEdge, bottomEdge);
+      checkBunnyStep("Y", -1, edges.top, edges.bottom);
       break;
     case "ArrowDown":
-      checkBunnyStep("Y", 1, bottomEdge, topEdge);
+      checkBunnyStep("Y", 1, edges.bottom, edges.top);
       break;
     default:
       break;
   }
 };
-
 const gameReady = () => {
   window.addEventListener("keyup", moveBunny);
 };
 
 const setCarrot = () => {
   window.addEventListener("keydown", setCarrotCoordinate);
-};
-
-const checkGameEnd = (points) => {
-  if (points === CARROTS_TO_WIN) {
-    alert("YOU WON!");
-    removeListeners();
-    startGame();
-    clearPoints();
-  }
 };
 
 const incrementPoints = () => {
@@ -242,6 +234,15 @@ const clearPoints = () => {
   pointsElem.innerHTML = `${pointsToZero}`;
 };
 
+const checkGameEnd = (points) => {
+  if (points === CARROTS_TO_WIN) {
+    alert("YOU WON!");
+    removeListeners();
+    startGame();
+    clearPoints();
+  }
+};
+
 const removeListeners = () => {
   window.removeEventListener("keydown", moveBunny);
   window.removeEventListener("keydown", setCarrotCoordinate);
@@ -255,4 +256,5 @@ function startGame() {
   setImagePosition(BUNNY_SLOT, "bunny-img", "bunnyID");
   gameReady();
   setCarrot();
+  clearPoints();
 }
