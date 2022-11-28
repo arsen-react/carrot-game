@@ -164,7 +164,7 @@ const setCarrotCoordinate = (e) => {
       // dont let to set another carrot
       return;
     }
-
+    
     const currentCharacter = getCurrentSlot();
     const [currRow, currColumn] = getObjectPosition(currentCharacter);
     MATRIX[currRow][currColumn] = BUNNY_ON_SOIL;
@@ -173,14 +173,32 @@ const setCarrotCoordinate = (e) => {
 
     TIMEOUT_ID = setTimeout(() => {
       const [soilRow, soilColumn] = getObjectPosition(SOIL);
+      console.log(MATRIX[soilRow][soilColumn]);
+
       MATRIX[soilRow][soilColumn] = CARROT_SLOT;
+
       setImagePosition(CARROT_SLOT, "carrot-img");
+
+      checkIfBunnyMoved()
+
 
     }, 2000);  
     
     e.preventDefault();
+
   }
 };
+
+const checkIfBunnyMoved = () =>{
+  const [currRow, currColumn] = getObjectPosition(BUNNY_ON_SOIL)
+ 
+  if(MATRIX[currRow][currColumn] === BUNNY_ON_SOIL){
+    alert('PLEASE MOVE BUNNY AFTER SPACE BUTTON')
+    startGame()
+  }else{
+
+  }
+}
 
 const changePreviousValueWithNew = (newRow, newColumn) => {
   const currentCharacter = getCurrentSlot();
@@ -260,4 +278,5 @@ function startGame() {
   gameReady();
   setCarrot();
   clearPoints();
+
 }
