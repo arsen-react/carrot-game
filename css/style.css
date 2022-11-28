@@ -11,8 +11,7 @@ body {
   align-items: center;
 }
 
-.points-wrapper{
-  
+.points-wrapper {
 }
 
 .startbutton {
@@ -109,7 +108,15 @@ body {
 
   position: absolute;
   left: 0;
-  top:0;
+  top: 0;
+}
+
+.points-wrapper {
+  margin-top: 2%;
+  background-color: rgb(162, 159, 159);
+  padding: 9px;
+  border-radius: 8%;
+  color: rgb(255, 255, 255);
 }
 
 .point-div{
