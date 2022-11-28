@@ -9,6 +9,7 @@ const SOIL = 3;
 const BUNNY_ON_SOIL = 4;
 const ROOT_DIV = document.getElementById("root");
 let TIMEOUT_ID;
+
 const edges = {
   right: 7,
   left: 0,
@@ -16,6 +17,7 @@ const edges = {
   bottom: 7
 }
 const CARROTS_TO_WIN = 8;
+
 let SOILS_COUNT = 0;
 
 const createEmptyBoardMatrix = () => {
@@ -173,8 +175,9 @@ const setCarrotCoordinate = (e) => {
       const [soilRow, soilColumn] = getObjectPosition(SOIL);
       MATRIX[soilRow][soilColumn] = CARROT_SLOT;
       setImagePosition(CARROT_SLOT, "carrot-img");
-    }, 2000);
 
+    }, 2000);  
+    
     e.preventDefault();
   }
 };

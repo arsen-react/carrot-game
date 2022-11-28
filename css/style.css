@@ -118,3 +118,11 @@ body {
   border-radius: 8%;
   color: rgb(255, 255, 255);
 }
+
+.point-div{
+  margin-top: 2%;
+  background-color: rgb(162, 159, 159);
+  padding: 9px;
+  border-radius: 8%;
+  color: rgb(255, 255, 255);
+}
