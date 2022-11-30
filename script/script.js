@@ -177,7 +177,7 @@ const setCarrotCoordinate = (e) => {
 
     }, 2000);  
     
-    e.preventDefault();
+    e.preventDefault(); //Don't let click on start button second time
   }
 };
 
