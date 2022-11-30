@@ -133,7 +133,6 @@ const checkBunnyStep = (line, step, edgeCoordinate, nextEdge) => {
     // we dont let bunny to move
     currentSlot = BUNNY_SLOT;
   }
-
   if (currentSlot === BUNNY_SLOT) {
     return;
   }
