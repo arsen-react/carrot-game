@@ -133,7 +133,6 @@ const checkBunnyStep = (line, step, edgeCoordinate, nextEdge) => {
     // we dont let bunny to move
     currentSlot = BUNNY_SLOT;
   }
-
   if (currentSlot === BUNNY_SLOT) {
     return;
   }
@@ -178,7 +177,7 @@ const setCarrotCoordinate = (e) => {
 
     }, 2000);  
     
-    e.preventDefault();
+    e.preventDefault(); //Don't let click on start button second time
   }
 };
 
