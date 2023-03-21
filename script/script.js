@@ -14,8 +14,8 @@ const edges = {
   right: 7,
   left: 0,
   top: 0,
-  bottom: 7
-}
+  bottom: 7,
+};
 const CARROTS_TO_WIN = 8;
 
 let SOILS_COUNT = 0;
@@ -174,9 +174,8 @@ const setCarrotCoordinate = (e) => {
       const [soilRow, soilColumn] = getObjectPosition(SOIL);
       MATRIX[soilRow][soilColumn] = CARROT_SLOT;
       setImagePosition(CARROT_SLOT, "carrot-img");
+    }, 2000);
 
-    }, 2000);  
-    
     e.preventDefault(); //Don't let click on start button second time
   }
 };
